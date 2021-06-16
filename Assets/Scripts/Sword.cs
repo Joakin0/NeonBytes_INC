@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Sword : MonoBehaviour
 {
+    //pene
+
     public GameObject simPortal;
     public GameObject digPortal;
     public bool dig;
