@@ -4,19 +4,20 @@ using UnityEngine;
 
 public class Digitalisation : MonoBehaviour
 {
-    public Transform portal;
+    public Transform transTo;
+    //public float timer = 5f;
 
     public void Start()
     {
-
+        //Destroy(gameObject, timer);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
         {
-            other.transform.position = portal.transform.position;
-            //Destroy(gameObject);
+            other.transform.position = transTo.transform.position;
+            Destroy(gameObject);
         }
     }
 }
