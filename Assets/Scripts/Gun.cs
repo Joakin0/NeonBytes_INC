@@ -8,14 +8,29 @@ public class Gun : MonoBehaviour
     public float range;
     public float fireRate;
     public float impactForce;
+
+    public int maxAmmo = 1;
+    private int currentAmmo;
+    public float reloadTime;
+
     public Camera fpsCam;
     public ParticleSystem flashFX;
     public GameObject impactFX;
 
     private float timeToFire = 0f;
 
+    private void Start()
+    {
+        currentAmmo = maxAmmo;
+    }
+
     private void Update()
     {
+        if (currentAmmo <= 0 || Input.GetKeyDown(KeyCode.R))
+        {
+            Reload();
+            return;
+        }
         if(Input.GetButton("Fire1") && Time.time >= timeToFire)
         {
             timeToFire = Time.time + 1f / fireRate;
@@ -25,6 +40,9 @@ public class Gun : MonoBehaviour
     void Shoot()
     {
         flashFX.Play();
+
+        currentAmmo--;
+
         RaycastHit hit;
         if(Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
@@ -41,5 +59,10 @@ public class Gun : MonoBehaviour
             GameObject impact = Instantiate(impactFX, hit.point, Quaternion.LookRotation(hit.normal));
             Destroy(impact, 1f);
         }
+    }
+    void Reload()
+    {
+        Debug.Log("Reloading...");
+        currentAmmo = maxAmmo;
     }
 }
