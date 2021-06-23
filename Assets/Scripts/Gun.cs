@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class Gun : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class Gun : MonoBehaviour
     public int maxAmmo = 1;
     private int currentAmmo;
     public float reloadTime;
+    private bool isReloading = false;
 
     public Camera fpsCam;
     public ParticleSystem flashFX;
@@ -19,16 +21,28 @@ public class Gun : MonoBehaviour
 
     private float timeToFire = 0f;
 
+    public Animator animator;
+
     private void Start()
     {
         currentAmmo = maxAmmo;
     }
 
+    private void OnEnable()
+    {
+        isReloading = false;
+        animator.SetBool("Reloading", false);
+    }
+
     private void Update()
     {
+        if(isReloading)
+        {
+            return;
+        }
         if (currentAmmo <= 0 || Input.GetKeyDown(KeyCode.R))
         {
-            Reload();
+            StartCoroutine(Reload());
             return;
         }
         if(Input.GetButton("Fire1") && Time.time >= timeToFire)
@@ -60,9 +74,15 @@ public class Gun : MonoBehaviour
             Destroy(impact, 1f);
         }
     }
-    void Reload()
+    IEnumerator Reload()
     {
+        isReloading = true;
         Debug.Log("Reloading...");
+        animator.SetBool("Reloading", true);
+        yield return new WaitForSeconds(reloadTime - .25f);
+        animator.SetBool("Reloading", false);
+        yield return new WaitForSeconds(.25f);
         currentAmmo = maxAmmo;
+        isReloading = false;
     }
 }

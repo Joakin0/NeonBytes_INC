@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class SwichGravity : MonoBehaviour
 {
-    private Transform transform;
+    private Transform trans;
     private Rigidbody rb;
     public bool changeGravity;
-    public float spinspeed = 1f;
+    public float spinSpeed = 1f;
 
     // Start is called before the first frame update
     void Start()
     {
-        transform = GetComponent<Transform>();
+        trans = GetComponent<Transform>();
         rb = GetComponent<Rigidbody>();
         changeGravity = false;
     }
@@ -20,21 +20,25 @@ public class SwichGravity : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Q) && changeGravity == false)
-        {
-            changeGravity = true;
-        }
-        else if (Input.GetKeyDown(KeyCode.Q) && changeGravity == true)
-        {
-            changeGravity = false;
-        }
-            if (changeGravity == true)
+        if (changeGravity == true)
         {
             Physics.gravity = new Vector3(0, 9.81f, 0);
+            transform.Rotate(0, 0, 180);
         }
         if (changeGravity == false)
         {
             Physics.gravity = new Vector3(0, -9.81f, 0);
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("GravityOff"))
+        {
+            changeGravity = true;
+        }
+        if (other.CompareTag("GravityOn"))
+        {
+            changeGravity = false;
         }
     }
 }

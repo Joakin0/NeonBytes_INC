@@ -5,8 +5,6 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     public float health;
-
-
     public void TakeDamage (float amount)
     {
         health -= amount;
@@ -19,6 +17,4 @@ public class Health : MonoBehaviour
     {
         Destroy(gameObject);
     }
-
-
 }

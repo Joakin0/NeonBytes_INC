@@ -11,6 +11,11 @@ public class Movment : MonoBehaviour
     public bool Grounded;
     private Rigidbody rb;
 
+    public bool darkSide;
+    public bool simulation;
+
+    //public bool darkSide;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,5 +39,29 @@ public class Movment : MonoBehaviour
         Vector3 movPos = transform.right * x + transform.forward * y;
         Vector3 newMovPos = new Vector3(movPos.x, rb.velocity.y, movPos.z);
         rb.velocity = newMovPos;
+
+        GameManager.instance.pos = transform.position;
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("DarkSide"))
+        {
+            darkSide = true;
+        }
+        if (other.CompareTag("Simulation"))
+        {
+            simulation = true;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("DarkSide"))
+        {
+            darkSide = false;
+        }
+        if (other.CompareTag("Simulation"))
+        {
+            simulation = false;
+        }
     }
 }
