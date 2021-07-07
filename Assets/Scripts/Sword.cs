@@ -10,8 +10,9 @@ public class Sword : MonoBehaviour
 
     public float damage;
     public float range;
-    public float fireRate;
     public float impactForce;
+    public float coolDown;
+    private float timeToFire = 0f;
     public Camera fpsCam;
 
     public Animator animator;
@@ -31,14 +32,16 @@ public class Sword : MonoBehaviour
             return;
 
         }
-        if (Input.GetButtonDown("Fire2") && mov.simulation)
+        if (Input.GetButtonDown("Fire2") && mov.simulation && Time.time >= timeToFire)
         {
+            coolDown = Time.time + 1f / coolDown;
             GameObject portal1 = Instantiate(simPortal);
             portal1.transform.position = transform.position + transform.forward;
             portal1.GetComponent<Digitalisation>().transTo = GameObject.FindGameObjectWithTag("digpos").transform;
         }
-        if (Input.GetButtonDown("Fire2") && mov.darkSide)
+        if (Input.GetButtonDown("Fire2") && mov.darkSide && Time.time >= timeToFire)
         {
+            coolDown = Time.time + 1f / coolDown;
             GameObject portal2 = Instantiate(digPortal);
             portal2.transform.position = transform.position + transform.forward;
             portal2.GetComponent<Digitalisation>().transTo = GameObject.FindGameObjectWithTag("simpos").transform;
