@@ -10,6 +10,9 @@ public class PlayerHealth : MonoBehaviour
     public RectTransform posPrimeraVida;
     public int offset;
     public Canvas myCanvas;
+    public Transform lastVida;
+
+    public LayerMask item;
 
     private void Start()
     {
@@ -24,15 +27,28 @@ public class PlayerHealth : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Bullet"))
         {
+            
             Destroy(myCanvas.transform.GetChild(cantVida + 1).gameObject);
             cantVida -= 1;
+            Debug.Log(cantVida);
+            
             if (cantVida <=0)
             {
                 Destroy(gameObject);
             }
+            Destroy(other.gameObject);
             
+        }
+        if (other.CompareTag("Botiquin") && cantVida < 10)
+        {
+            
+            cantVida++;
+            posPrimeraVida.position = new Vector2(myCanvas.transform.GetChild(cantVida-1).position.x, myCanvas.transform.GetChild(cantVida - 1).position.y + offset);
+            Image nuevaVida = Instantiate(vida, posPrimeraVida.position, Quaternion.identity);
+            nuevaVida.transform.parent = myCanvas.transform;
+            Debug.Log(cantVida);
         }
     }
 

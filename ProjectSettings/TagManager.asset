@@ -8,6 +8,12 @@ TagManager:
   - DarkSide
   - Simulation
   - Enemy
+  - GravityOff
+  - GravityOn
+  - simpos
+  - digpos
+  - Bullet
+  - Botiquin
   layers:
   - Default
   - TransparentFX
@@ -17,8 +23,8 @@ TagManager:
   - UI
   - Rooft
   - Ground
-  - 
-  - 
+  - Player
+  - Item
   - 
   - 
   - 
